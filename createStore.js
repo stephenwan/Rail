@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootSaga from './sagas/helloSaga';
+import rootSaga from './sagas/rootSaga';
 import helloReducer from './reducers/helloReducer';
 import stationListReducer from './reducers/stationListReducer';
 

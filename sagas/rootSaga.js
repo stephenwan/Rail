@@ -3,10 +3,6 @@ import { put, takeEvery, all, call, takeLatest } from 'redux-saga/effects';
 import { incCounter, loadStationsCompleted } from '../actions/actionCreators';
 import * as actionTypes from '../actions/actionTypes';
 
-function* helloSaga() {
-  const msg = "hello world";
-  console.log("msg = ", msg);
-}
 
 function* incCounterDelayed() {
   yield delay(2000);
@@ -29,7 +25,6 @@ function* loadStationsDelayed() {
 
 export default function* rootSaga() {
   yield all([
-    helloSaga(),
     watchIncCounterDelayed(),
     loadStationsDelayed()
   ]);
