@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, ActivityIndicator, ListView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, ActivityIndicator, ListView, TouchableOpacity} from 'react-native';
+import Button from 'react-native-button';
 
 
 export default class StationList extends React.Component {
@@ -24,9 +25,9 @@ export default class StationList extends React.Component {
 
   _renderRow(rowData) {
     return (
-      <View style={styles.contentContainer}>
+      <TouchableOpacity style={styles.resultRow} onPress={() => {console.log(rowData.location_name);}}>
         <Text>{rowData.location_name}</Text>
-      </View>
+      </TouchableOpacity>
     );
   }
 
@@ -37,76 +38,123 @@ export default class StationList extends React.Component {
     });
   }
 
-
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.title}>
-          <Text style={styles.centering}>Rail Demo</Text>
+      <View>
+        <View style={styles.header}>
+          <View style={styles.searchRow}>
+            <TextInput
+              style={[styles.searchInput]}
+              onChangeText={this._changeToken}
+              value={this.state.token}
+              placeholder="Search stations.."
+              placeholderTextColor="white"
+              />
+            <Button
+              containerStyle={styles.button}
+              style={styles.button_font}
+              onPress={() => this._changeToken('')}>
+              Cancel
+            </Button>
+          </View>
         </View>
-        <TextInput
-          style={[styles.contentContainer, styles.textInput]}
-          onChangeText={this._changeToken}
-          value={this.state.token}
-          placeholder="Search stations.."
-          />
-        { this.state.isLoading ?
-          (
+        <View style={styles.panel}>
+          { this.state.isLoading ? (
             <ActivityIndicator
-              style={[styles.centering, styles.gray]}
+              style={styles.spinner}
               color="white"
               />
           ) : (
             <ListView
-              style={styles.listContainer}
               dataSource={this.state.dataSource}
               renderRow={this._renderRow}
-              renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+              renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.row_separator} />}
               />
-          )
-        }
+          )}
+        </View>
       </View>
     );
   }
 }
 
+const _horizontal = {
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  alignItems: 'center'
+};
+
+const _row = {
+  ..._horizontal,
+  height: 32,
+  paddingHorizontal: 10,
+  paddingVertical: 3
+};
+
+const _font = {
+  fontSize: 13
+};
+
+const _rowContent = {
+  height: 26
+};
+
+const _roundBorder = {
+  borderColor: 'white',
+  borderWidth: 1,
+  borderRadius: 4
+};
+
+const _centering = {
+   alignItems: 'center',
+  justifyContent: 'center'
+};
+
 const styles = StyleSheet.create({
-  title: {
-    height: 60,
-    alignItems: 'center',
-    justifyContent: 'center'
+  header: {
+    height: 52,
+    backgroundColor: '#00b2d6'
   },
-  separator: {
-    flex: 1,
+  panel: {
+    flexGrow: 1
+  },
+  searchRow: {
+    ..._row,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0
+  },
+  searchInput: {
+    ..._roundBorder,
+    ..._rowContent,
+    ..._font,
+    flex: 2,
+    color: 'white',
+    paddingHorizontal: 8,
+    marginRight: 10
+  },
+  button: {
+    ..._rowContent,
+    ..._centering,
+    flex: 0.5
+  },
+  button_font: {
+    ..._font,
+    color: 'white'
+  },
+  resultRow: {
+    ..._row,
+    alignSelf: 'stretch',
+    backgroundColor: 'white',
+    justifyContent: 'flex-start'
+  },
+  row_separator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#8E8E8E'
   },
-  container: {
-    justifyContent: 'space-around'
-  },
-  contentContainer: {
-    padding: 12
-  },
-  textInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1
-  },
-  listContainer: {
-    maxHeight: 400,
-    backgroundColor: 'white'
-  },
-  centering: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 8
-  },
-  gray: {
+  spinner: {
+    ..._centering,
     backgroundColor: '#cccccc'
   },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 8
-  }
+  horizontal: _horizontal
 });
