@@ -1,7 +1,9 @@
 import { INC_COUNTER,
          INC_COUNTER_DELAYED,
          LOAD_STATIONS,
-         LOAD_STATIONS_COMP
+         LOAD_STATIONS_COMP,
+         START_STATION_SELECTION,
+         DONE_STATION_SELECTION
        } from './actionTypes';
 
 
@@ -26,4 +28,16 @@ export const loadStations = (token) => ({
 export const loadStationsCompleted = (stations) => ({
   type: LOAD_STATIONS_COMP,
   payload: stations
+});
+
+
+export const startStationSelection = (mode) => ({
+  type: START_STATION_SELECTION,
+  payload: mode
+});
+
+
+export const doneStationSelection = (station) => ({
+  type: DONE_STATION_SELECTION,
+  payload: station
 });

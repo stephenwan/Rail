@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { loadStations } from '../actions/actionCreators';
+import { loadStations, doneStationSelection } from '../actions/actionCreators';
 import StationList from '../components/StationList';
 
 const mapStateToProps = state => ({
@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => (
-  bindActionCreators({ loadStations }, dispatch)
+  bindActionCreators({ loadStations, doneStationSelection }, dispatch)
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(StationList);

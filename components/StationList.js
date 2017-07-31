@@ -23,9 +23,16 @@ export default class StationList extends React.Component {
     }
   };
 
+  _selectStation = (station) => {
+    console.log('Selected station', station);
+    this.props.doneStationSelection(station);
+  };
+
   _renderRow(rowData) {
+    const selectStation = () => {this._selectStation(rowData); console.log('111');};
+
     return (
-      <TouchableOpacity style={styles.resultRow} onPress={() => {console.log(rowData.location_name);}}>
+      <TouchableOpacity style={styles.resultRow} onPress={ selectStation }>
         <Text>{rowData.location_name}</Text>
       </TouchableOpacity>
     );
@@ -39,6 +46,12 @@ export default class StationList extends React.Component {
   }
 
   render() {
+    const Row = ({station, onStationSelected}) => (
+      <TouchableOpacity style={styles.resultRow} onPress={() => {onStationSelected(station);}}>
+        <Text>{station.location_name}</Text>
+      </TouchableOpacity>
+    );
+
     return (
       <View>
         <View style={styles.header}>
@@ -53,7 +66,7 @@ export default class StationList extends React.Component {
             <Button
               containerStyle={styles.button}
               style={styles.button_font}
-              onPress={() => this._changeToken('')}>
+              onPress={ () => {this.props.doneStationSelection(null); }}>
               Cancel
             </Button>
           </View>
@@ -66,8 +79,10 @@ export default class StationList extends React.Component {
               />
           ) : (
             <ListView
+              keyboardShouldPersistTaps="always"
+              keyboardDismissMode="on-drag"
               dataSource={this.state.dataSource}
-              renderRow={this._renderRow}
+              renderRow={(station) => (<Row station={station} onStationSelected={this._selectStation}/>)}
               renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.row_separator} />}
               />
           )}
@@ -85,17 +100,17 @@ const _horizontal = {
 
 const _row = {
   ..._horizontal,
-  height: 32,
+  height: 36,
   paddingHorizontal: 10,
   paddingVertical: 3
 };
 
 const _font = {
-  fontSize: 13
+  fontSize: 15
 };
 
 const _rowContent = {
-  height: 26
+  height: 30
 };
 
 const _roundBorder = {
@@ -111,7 +126,7 @@ const _centering = {
 
 const styles = StyleSheet.create({
   header: {
-    height: 52,
+    height: 66,
     backgroundColor: '#00b2d6'
   },
   panel: {
