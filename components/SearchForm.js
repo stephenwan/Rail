@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Text, View, TouchableHighlight, StyleSheet } from 'react-native';
+import { Modal, Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import StationListContainer from '../containers/StationListContainer';
 
 export default class SearchForm extends React.Component {
@@ -28,23 +28,23 @@ export default class SearchForm extends React.Component {
           <StationListContainer/>
         </Modal>
         <View style={styles.searchSection}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.input}
             onPress={() => { this.props.startStationSelection('departure'); }}>
             <Text>{ !this.props.departure ? (<Text style={styles.placeholder}>Pick Departure</Text>)
               : this.props.departure.location_name }</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           <View style={styles.inputDescription}>
             <Text>From: </Text>
           </View>
         </View>
          <View style={styles.searchSection}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.input}
             onPress={() => { this.props.startStationSelection('arrival'); }}>
             <Text>{ !this.props.arrival ? (<Text style={styles.placeholder}>Pick Arrival</Text>)
                     : this.props.arrival.location_name }</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           <View style={styles.inputDescription}>
             <Text>To: </Text>
           </View>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     height: 36,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: 'transparent'
   },
   input: {
     borderWidth: StyleSheet.hairlineWidth,
